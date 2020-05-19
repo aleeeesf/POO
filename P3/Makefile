@@ -30,7 +30,7 @@ INCLUDES  = -I${DIRFECHACADENA} -I${DIRTESTS} -I.
 
 # Compilador de C++ preferido: el de LLVM (clang++), el de GNU (g++),
 # el de GNU en la versión 6, 7 u 8 (g++-8), el de Intel (icpc)...
-CXX = clang++
+CXX =clang++
 
 # ¿Qué estándar seguir?
 # ansi o c++98 o c++03: estándar de 1998, corregido en 2003. NO USAR YA.
