@@ -5,9 +5,10 @@
 #include <ostream>     // for basic_ostream::operator<<, basic_ostream<>::__...
 #include <iomanip>
 #include "cadena.hpp"  // for Cadena
+#include <algorithm>
 class Usuario;  // lines 6-6
+//Declaracion adelantada
 set<Numero> Tarjeta::numeros_;
-
 bool luhn(const Cadena& numero);
 
 
@@ -16,30 +17,42 @@ bool luhn(const Cadena& numero);
 	/*				CLASE	NÚMERO				*/
 	/* **************************************** */
 	
-//Constructor de la clase número	
-Numero::Numero(const Cadena& cdn)
-{
-	/*Recorremos en busca de espacios en blanco para eliminarlos
-	 * de la cadena de numeros introducidas*/
-	unsigned i, j;
-	Cadena aux(cdn);
+
+//Clase objeto que devuelve si un caracter es digito
+struct EsDigito: unary_function<char,bool>{bool operator()(char x) const{return isdigit(x);}};
+
 	
+//Constructor de la clase número	
+Numero::Numero(Cadena cdn)
+{
+	/* 	FORMA ANTIGUA	*//*
+	unsigned i, j;
 	for(i = j = 0; i != cdn.length();)			
-		if(isspace(cdn[i])) ++i;			//¿Espacio?->Descartar, ir al siguiente caracter
-		else{ 
-			  aux[j] = cdn[i];
-			  if(!isdigit(aux[j])) throw Incorrecto(Numero::Razon::DIGITOS);	//¿NO es dígito? -> lanzar excepción
-			  i++; j++;
+	if(isspace(cdn[i])) ++i;			//¿Espacio?->Descartar, ir al siguiente caracter
+	else{ 
+	aux[j] = cdn[i];
+	if(!isdigit(aux[j])) throw Incorrecto(Numero::Razon::DIGITOS);	//¿NO es dígito? -> lanzar excepción
+	i++; j++;
 	}
 	aux[j] = '\0';	
+	*/
 	
-	Cadena n(aux);
+	/*Recorremos en busca de espacios en blanco para eliminarlos
+	 * de la cadena de numeros introducidas*/
+	 
+	auto f = [](char x){return isspace(x);};			//Usamos funcion lambda para saber si el caracter es espacio
+	auto i = std::remove_if(cdn.begin(),cdn.end(),f);
+	if(i != cdn.end()) *i = '\0';
+	Cadena aux = Cadena(cdn);
 	
-	if(n.length() < 13 || n.length() > 19) throw Incorrecto(Numero::Razon::LONGITUD);	//¿NO comprendido entre 13 y 19? -> lanzar excepción
+	//unary_negate<EsDigito> not((EsDigito()));
+	if(std::find_if(aux.begin(),aux.end(), std::not1(EsDigito())) != aux.end()) throw Incorrecto(Numero::Razon::DIGITOS);
+
+	if(aux.length() < 13 || aux.length() > 19) throw Incorrecto(Numero::Razon::LONGITUD);	//¿NO comprendido entre 13 y 19? -> lanzar excepción
 		
-	if(!luhn(n)) throw Incorrecto(Numero::Razon::NO_VALIDO);
+	if(!luhn(aux)) throw Incorrecto(Numero::Razon::NO_VALIDO);
 	
-	num_ = n;
+	num_ = aux;
 }
 
 //Constructor de class Incorrecto (Para manejar excepciones)
@@ -61,12 +74,11 @@ bool operator <(const Numero& a, const Numero& b)
 
 
 
-
-
 	/* **************************************** */
 	/*				CLASE	TARJETA				*/
 	/* **************************************** */
 	
+
 	
 Tarjeta::Tarjeta(const Numero& n, Usuario& u, const Fecha& f):num_tarjeta(n),titular_(&u),f_cad(f),activada_(true)
 {

@@ -14,18 +14,17 @@ Cadena::Cadena(unsigned t,char c):s_(new char[t+1]),tam_(t)
 	s_[t] = '\0';
 }
 
-Cadena::Cadena(const char *str)
-{
-	tam_ = strlen(str);
-	s_ = new char[tam_+1];	//Reservamos memoria para s_
-	
+Cadena::Cadena(const char *str):s_(new char[strlen(str)+1]),tam_(strlen(str))
+{	strcpy(s_,str);
+	/*
 	for(unsigned i = 0; i<tam_; i++) s_[i] = str[i];	//Copiamos la cadena a s_
-		
-	s_[tam_] = '\0';	
+	s_[tam_] = '\0';	*/
 }
 
-Cadena::Cadena(const Cadena& cdn)
+Cadena::Cadena(const Cadena& cdn)//:s_(new char [cdn.tam_+1]),tam_(cdn.tam_)
 {
+	//strcpy(s_,cdn.s_);
+	
 	tam_ = 0;
 	for(unsigned i = 0; cdn[i] != '\0'; i++) tam_++;
 	
@@ -35,7 +34,7 @@ Cadena::Cadena(const Cadena& cdn)
 	for(unsigned i = 0; i<tam_; i++)	s_[i] = cdn[i];	//Copiamos todos los elementos de cdn
 												// a la nueva cadena
 	s_[tam_] = '\0';
-		
+	
 }
 
 Cadena::Cadena(Cadena&& cdn){
@@ -319,5 +318,5 @@ Cadena::reverse_iterator Cadena::rend() {return reverse_iterator(begin());}
 	/*				  DESTRUCTOR				*/
 	/* **************************************** */
 	
-Cadena::~Cadena(){tam_ = 0; delete[] s_;}
+Cadena::~Cadena(){delete[] s_;tam_ = 0;}
 

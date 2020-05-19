@@ -1,10 +1,10 @@
 #ifndef PEDIDO_H
 #define PEDIDO_H
-#include <iostream>   // for ostream
-#include "fecha.hpp"  // for Fecha
+#include <iostream>  	// for ostream
+#include "fecha.hpp"  	// for Fecha
 class Articulo;
-class Pedido_Articulo;  // lines 15-15
-class Tarjeta;  // lines 14-14
+//class Pedido_Articulo;  // lines 15-15
+//class Tarjeta;  		// lines 14-14
 class Usuario;
 class Usuario_Pedido;
 
@@ -26,6 +26,7 @@ class Pedido{
 		double total() const;
 		static unsigned n_total_pedidos();
 		
+		/*	Clases para el manejo de excepciones  */
 		class Vacio{
 			public:
 				Vacio(Usuario*);

@@ -54,7 +54,7 @@ Cadena Clave::clave() const {return passwd;}
 
 //Tipo de función: Pública
 //Postcondición: Devuelve la razón del error cometido al introducir la contraseña.
-Clave::Razon Clave::Incorrecta::razon() const{return r_;};
+Clave::Razon Clave::Incorrecta::razon() const{return r_;}
 
 
 
@@ -91,7 +91,7 @@ const Cadena& Usuario::Id_duplicado::idd() const {return id_;}
 
 //Tipo de función: Pública.
 //Postcondición: Devuelve el id del usuario.
-inline const Cadena& Usuario::id() const  noexcept{return identif_;};
+inline const Cadena& Usuario::id() const  noexcept{return identif_;}
 
 //Tipo de función: Pública.
 //Postcondición: Devuelve el nombre del usuario

@@ -265,9 +265,9 @@ bool operator <(const Fecha& a, const Fecha& b) noexcept
 {
 	if(a.anno() < b.anno()) return true;
   
-	else if((a.anno() <= b.anno()) && (a.mes() < b.mes())) return true;
+	else if((a.mes() < b.mes()) && (a.anno() == b.anno())) return true;
   
-		else if ( (a.dia() < b.dia()) && (a.mes() <= b.mes()) && (a.anno() <= b.anno()) ) return true;
+		else if ((a.mes() == b.mes()) && (a.anno() == b.anno()) && (a.dia() < b.dia())) return true;
 		
 		else return false;
 

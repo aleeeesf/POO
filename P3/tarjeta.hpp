@@ -12,7 +12,7 @@ class Numero{
 	
 	public:
 	
-		Numero(const Cadena&);
+		Numero(Cadena);
 		
 		const Cadena& cadena() const;
 		operator const char*() const;

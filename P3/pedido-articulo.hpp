@@ -4,7 +4,7 @@
 #include <iostream>    // for ostream
 #include <map>         // for map, map<>::value_compare
 class Articulo;
-class Pedido;  // lines 7-7
+class Pedido;  		   // lines 7-7
 
 using namespace std;
 
@@ -23,7 +23,7 @@ class LineaPedido{
 ostream& operator<<(ostream& os, const LineaPedido&);
 
 
-
+/* 	Objetos función para ordenar los pedidos y los articulos	*/
 struct OrdenaPedidos:binary_function<Pedido*,Pedido*,bool>
 {
 	public:	bool operator()(Pedido*, Pedido*) const;
