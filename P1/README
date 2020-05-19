@@ -1,0 +1,13 @@
+COMO EJECUTAR LAS PRUEBAS:
+
+TEST-P1-AUTO: make test-P1-auto
+
+TEST-P1-CONSOLA: make test-P1-consola
+
+PARA PASAR LOS VALGRINDS HAY QUE ESCRIBIR:
+
+valgrind --leak-check=full ./test-P1-auto
+
+PARA PASAR LOS FECHA Y CADENA CHECK HAY QUE ESCRIBIR:
+
+./fecha_check fecha.cpp -- -std=c++11
