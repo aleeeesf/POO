@@ -30,3 +30,4 @@ int main(){
     sLibro = os.str();
     fct_chk_eq_str(sLibro.c_str(), "650 págs., 100 unidades.");*/
 }
+//..
