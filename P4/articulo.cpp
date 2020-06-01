@@ -119,7 +119,7 @@ const Fecha& LibroDigital::f_expir() const noexcept {return exp;}
 std::ostream& operator <<(ostream& os, const Articulo& art)
 {
 	setlocale(LC_ALL,"es_ES.UTF-8");
-	os<<"["<<art.referencia()<<"]"<<" "<<"\""<<art.titulo()<<"\", de ";
+	os<<"["<<art.referencia()<<"]"<<" \""<<art.titulo()<<"\", de ";
 	
 	bool first = true;
 	for(Articulo::Autores::iterator i = art.autores().begin(); i != art.autores().end(); ++i){
@@ -133,22 +133,21 @@ std::ostream& operator <<(ostream& os, const Articulo& art)
 	
 	os<<". "<<art.f_publi().anno()<<". "<<fixed<<setprecision(2)<<art.precio()<<" €\n\t";
 	art.impresion_especifica(os);
-	os.flush();
 	return os;
 }
 
 void Libro::impresion_especifica(ostream& os) const
-{	setlocale(LC_ALL,"es_ES.UTF-8");
+{	
 	os<<num_pag<<" págs., "<<existencias_<<" unidades."<<endl;
 }
 
 void Cederron::impresion_especifica(ostream& os) const 
-{	setlocale(LC_ALL,"es_ES.UTF-8");
+{
 	os<<megabyt<<" MB, "<<existencias_<<" unidades."<<endl;
 }
 
 void LibroDigital::impresion_especifica(ostream& os) const 
-{	setlocale(LC_ALL,"es_ES.UTF-8");
+{
 	os<<"A la venta hasta el "<<exp<<"."<<endl;
 }
 

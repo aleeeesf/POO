@@ -36,38 +36,23 @@ Pedido::Pedido(Usuario_Pedido& up, Pedido_Articulo& pa, Usuario& u, const Tarjet
 	
 	/*	Comprobamos que la tarjeta está activa	*/
 	if(!t.activa()) throw Tarjeta::Desactivada();
-	
-	
-	
-	//for(auto &i: u.compra())
-	//{	
-		//No hacer caso: Diapositiva 14 del tema 4.Polimorfismo
-		//if(ArticuloAlmacenable* pa = dynamic_cast<ArticuloAlmacenable*>(i.first)){ 	//Si el objeto apuntado por i.first es de tipo ArticuloAlmacenable
-																					//i.first se convierte sin problemas en pa
-		//	if(pa->stock() < i.second){
-			
-			//	const_cast<Usuario::Articulos&> (u.compra()).clear();
-				
-				/*	DIFERENTES MANERAS DE VACIAR EL CARRITO	*/	
-				
-				//for(auto& it: u.compra())
-				//{				
-					//cout<<it.first<<endl;					
-				//}
-				
-				//const_cast<Usuario::Articulos&> (u.compra()).erase(u.compra().begin(),u.compra().end());		
-				
-				//throw Pedido::SinStock(i.first);	//NO hay stock del artículo
-			//} 
-		//}
-	//}
-	
-	//unsigned cont_pedidos = 0;
-	//unsigned cont_expirados = 0;
-	//unsigned compra_libros = 0;
-	bool ped_vacio = true;
-	/*	Actualizamos el stock, calculamos el importe total y realizamos el pedido	*/
+		
 	for(auto &i: u.compra())
+	{	
+		//No hacer caso: Diapositiva 14 del tema 4.Polimorfismo
+		if(ArticuloAlmacenable* pa = dynamic_cast<ArticuloAlmacenable*>(i.first)){ 	//Si el objeto apuntado por i.first es de tipo ArticuloAlmacenable
+																					//i.first se convierte sin problemas en pa
+			if(pa->stock() < i.second){
+				const_cast<Usuario::Articulos&> (u.compra()).clear();
+				throw Pedido::SinStock(i.first);	//NO hay stock del artículo
+			} 
+		}
+	}
+	
+	bool ped_vacio = true;
+	Usuario::Articulos carro = u.compra();
+	/*	Actualizamos el stock, calculamos el importe total y realizamos el pedido	*/
+	for(auto i: carro)
 	{
 		if(LibroDigital* plib = dynamic_cast<LibroDigital *>(i.first)){
 			
@@ -85,11 +70,6 @@ Pedido::Pedido(Usuario_Pedido& up, Pedido_Articulo& pa, Usuario& u, const Tarjet
 		}
 		else if	(ArticuloAlmacenable* p_art = dynamic_cast<ArticuloAlmacenable *>(i.first))
 		{
-			if(p_art->stock() < i.second){
-				const_cast<Usuario::Articulos&> (u.compra()).clear();
-				throw Pedido::SinStock(i.first);	//NO hay stock del artículo
-			}
-			
 			pa.pedir(*this,*p_art, i.first->precio(),i.second);	
 			p_art->stock() -= i.second;
 		    importe_total += i.first->precio() * i.second;	

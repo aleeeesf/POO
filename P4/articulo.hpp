@@ -45,6 +45,7 @@ class Articulo{
 		};
 
 		virtual ~Articulo(){};
+	
 	private:
 		
 		Cadena ref_;			//referencia del articulo

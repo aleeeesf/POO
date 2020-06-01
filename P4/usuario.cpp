@@ -119,13 +119,12 @@ inline const Usuario::Articulos& Usuario::compra() const noexcept {return articu
 //Postcondición: Devuelve por pantalla los articulos del carrito.
 void mostrar_carro(ostream& os, const Usuario& u)
 {	
-	locale::global(locale("es_ES.UTF-8"));
 	
 	os<<"Carrito de compra de "<<u.id()<<" [Artículos: "<<u.n_articulos()<<"]"<<
 		endl<<" Cant.  Artículo"<<endl<<"===================================================="<<endl;
 		
 		for(auto i : u.compra()){
-			os<<" "<<i.second<<"\t"<<"["<<i.first->referencia()<<"]\""<<i.first->titulo()<<"\","<<
+			os<<" "<<i.second<<"    "<<"["<<i.first->referencia()<<"] \""<<i.first->titulo()<<"\", "<<
 			i.first->f_publi().anno()<<". "<<fixed<<setprecision(2)<<i.first->precio()<<" €"<<endl;
 		}
 }
