@@ -13,10 +13,10 @@
 
 using namespace std;
 unordered_set<Cadena> Usuario::registrado;				//Hay que incluir la especialización de la
-														//plantilla hash<T> en cadena.hpp
+									//plantilla hash<T> en cadena.hpp
 
 	/* **************************************** */
-	/*				 				CLASE CLAVE								*/
+	/*		CLASE CLAVE		    */
 	/* **************************************** */
 
 
@@ -27,7 +27,7 @@ Clave::Clave(const char* p)
 	else{
 
 		static const char* semilla = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./";
-		static std::random_device rd;										//Genera un numero aleatorio
+		static std::random_device rd;							//Genera un numero aleatorio
 		static std::uniform_int_distribution<std::size_t> dist(0,63);
 		char sal[2] = {semilla[dist(rd)],semilla[dist(rd)]};				//Tomamos dos letras aleatorias
 
@@ -59,7 +59,7 @@ Clave::Razon Clave::Incorrecta::razon() const{return r_;}
 
 
 	/* **************************************** */
-	/*				 				CLASE USUARIO							*/
+	/*		  CLASE USUARIO	     	    */
 	/* **************************************** */
 
 
@@ -71,7 +71,7 @@ Usuario::Usuario(const Cadena& id,const Cadena& nom, const Cadena& ap, const Cad
 		//lanzamos excepción mostrando el usuario duplicado
 
 		if(!registrado.insert(id).second) throw(Id_duplicado(id));	//insert devuelve un par (set::end, false), para
-																	//comprobar el segundo añadimos .second
+										//comprobar el segundo añadimos .second
 }
 
 //Constructor de la clase Id_duplicado -> Excepciones
@@ -80,7 +80,7 @@ Usuario::Id_duplicado::Id_duplicado(const Cadena& c):id_(c){}
 
 
 	/* **************************************** */
-	/*						FUNCIONES	CONSULTORAS					*/
+	/*	FUNCIONES	CONSULTORAS	    */
 	/* **************************************** */
 
 
@@ -132,7 +132,7 @@ void mostrar_carro(ostream& os, const Usuario& u)
 
 
 	/* **************************************** */
-	/*					FUNCIONES	MODIFICADORAS					*/
+	/*	FUNCIONES	MODIFICADORAS	    */
 	/* **************************************** */
 
 
@@ -141,7 +141,7 @@ void mostrar_carro(ostream& os, const Usuario& u)
 //Postcondición: Asigna una tarjeta a un usuario.
 void Usuario::es_titular_de(Tarjeta& t)
 {
-	if(t.titular() == this)								//El titular de la tarjeta no puede
+	if(t.titular() == this)					//El titular de la tarjeta no puede
 		tarj_[t.numero()] = const_cast<Tarjeta*>(&t);	//ser diferente
 }
 

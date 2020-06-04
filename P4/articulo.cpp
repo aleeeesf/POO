@@ -6,7 +6,7 @@
 
 
 	/* **************************************** */
-	/*								CONSTRUCTORES							*/
+	/*		CONSTRUCTORES		    */
 	/* **************************************** */
 
 
@@ -22,7 +22,7 @@ Articulo::Articulo(const Autores& aut,const Cadena& r, const Cadena& t, const Fe
 	}
 
 
-/*	------ CONSTRUCTORES DE LAS CLASES HEREDADAS -----*/
+/* ------ CONSTRUCTORES DE LAS CLASES HEREDADAS -----*/
 
 
 //Constructor de la clase ArticuloAlmacenable (Heredada de Articulo)
@@ -45,7 +45,7 @@ LibroDigital::LibroDigital(const Autores& aut,const Cadena& r, const Cadena& t, 
 
 
 	/* **************************************** */
-	/*						FUNCIONES	CONSULTORAS					*/
+	/*	   FUNCIONES  CONSULTORAS	    */
 	/* **************************************** */
 
 
@@ -93,7 +93,7 @@ double& Articulo::precio(){return precio_;}
 const Articulo::Autores& Articulo::autores() const noexcept {return fundador;}
 
 
-/*	------ CONSULTORAS DE LAS CLASES HEREDADAS	-----*/
+/* ------ CONSULTORAS DE LAS CLASES HEREDADAS -----*/
 
 
 //Tipo de funcion: Publica
@@ -116,7 +116,7 @@ const Fecha& LibroDigital::f_expir() const noexcept {return exp;}
 
 
 	/* **************************************************/
-	/*		FUNCIONES Y SOBRECARGA OPERADORES DE E/S			*/
+	/*	FUNCIONES Y SOBRECARGA OPERADORES DE E/S    */
 	/* **************************************************/
 
 

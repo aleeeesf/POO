@@ -15,7 +15,7 @@ unsigned Pedido::cant_pedidos(0);
 
 
 	/* **************************************** */
-	/*							CONSTRUCTORES								*/
+	/*	         CONSTRUCTORES	  	    */
 	/* **************************************** */
 
 
@@ -50,7 +50,7 @@ Pedido::Pedido(Usuario_Pedido& up, Pedido_Articulo& pa, Usuario& u, const Tarjet
 			}
 	}
 
-	bool ped_vacio = true;									//Booleano para comprobar si el pedido está vacío
+	bool ped_vacio = true;			//Booleano para comprobar si el pedido está vacío
 	Usuario::Articulos carro = u.compra();	//Carro auxiliar, para no modificar el original
 
 	/* Se realizan los pedidos que tenga el usuario en el carrito;
@@ -68,8 +68,8 @@ Pedido::Pedido(Usuario_Pedido& up, Pedido_Articulo& pa, Usuario& u, const Tarjet
 						else{
 							 //El pedido no contiene ningun libro expirado o contiene al menos un Art. Almacenable
 							 ped_vacio = false;
-							 pa.pedir(*this,*plib, i.first->precio(),i.second);		//Pedimos el artículo
-							 importe_total += i.first->precio() * i.second;				//Calculamos el importe total
+							 pa.pedir(*this,*plib, i.first->precio(),i.second);	//Pedimos el artículo
+							 importe_total += i.first->precio() * i.second;		//Calculamos el importe total
 							 u.compra(*i.first,0);
 						}
 				}
@@ -78,8 +78,8 @@ Pedido::Pedido(Usuario_Pedido& up, Pedido_Articulo& pa, Usuario& u, const Tarjet
 				else if	(ArticuloAlmacenable* p_art = dynamic_cast<ArticuloAlmacenable *>(i.first))
 				{
 						pa.pedir(*this,*p_art, i.first->precio(),i.second);		//Pedimos el artículo
-						p_art->stock() -= i.second;														//decrementamos el stock
-					   importe_total += i.first->precio() * i.second;				//Calculamos el importe total
+						p_art->stock() -= i.second;					//decrementamos el stock
+					   	importe_total += i.first->precio() * i.second;			//Calculamos el importe total
 						u.compra(*i.first,0);
 						ped_vacio = false;	 //El pedido no contiene ningun libro expirado o contiene al menos un Art. Almacenable
 				}
@@ -121,7 +121,7 @@ Articulo& Pedido::SinStock::articulo() const{return *a;}
 
 
 	/* **************************************** */
-	/*					FUNCIONES	CONSULTORAS						*/
+	/*	FUNCIONES	CONSULTORAS	    */
 	/* **************************************** */
 
 
