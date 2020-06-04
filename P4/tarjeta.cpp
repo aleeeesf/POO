@@ -14,7 +14,7 @@ bool luhn(const Cadena& numero);
 
 
 	/* **************************************** */
-	/*				CLASE	NÚMERO				   */
+	/*	 	CLASE	NÚMERO		    */
 	/* **************************************** */
 
 
@@ -62,7 +62,7 @@ bool operator <(const Numero& a, const Numero& b)
 
 
 	/* **************************************** */
-	/*				CLASE	TARJETA				   */
+	/*		CLASE	TARJETA		    */
 	/* **************************************** */
 
 
@@ -103,7 +103,7 @@ Tarjeta::Desactivada::Desactivada(){}
 
 
 	/* **************************************** */
-	/*			FUNCIONES	CONSULTORAS	    */
+	/*	FUNCIONES	CONSULTORAS	    */
 	/* **************************************** */
 
 
@@ -160,7 +160,7 @@ bool operator<(const Tarjeta& a, const Tarjeta& b)
 
 
 	/* **************************************** */
-	/*		FUNCIONES	MODIFICADORAS		   */
+	/*	FUNCIONES	MODIFICADORAS	    */
 	/* **************************************** */
 
 
