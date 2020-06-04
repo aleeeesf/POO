@@ -30,9 +30,10 @@ Pedido::Pedido(Usuario_Pedido& up, Pedido_Articulo& pa, Usuario& u, const Tarjet
 	if(u.id() != t.titular()->id()) throw Pedido::Impostor(&u);
 	
 	/*	Comprobamos que la tarjeta no está caducada	*/
-	if(t.caducidad().anno() < f.anno()) throw Tarjeta::Caducada(t.caducidad());
-	if((t.caducidad().anno() == f.anno()) && (t.caducidad().mes() < f.mes())) throw Tarjeta::Caducada(t.caducidad());
-	if((t.caducidad().anno() == f.anno()) && (t.caducidad().mes() == f.mes()) && (t.caducidad().dia() < f.dia())) throw Tarjeta::Caducada(t.caducidad());
+	if(t.caducidad() < f) throw Tarjeta::Caducada(t.caducidad());
+	//if(t.caducidad().anno() < f.anno()) throw Tarjeta::Caducada(t.caducidad());
+	//if((t.caducidad().anno() == f.anno()) && (t.caducidad().mes() < f.mes())) throw Tarjeta::Caducada(t.caducidad());
+	//if((t.caducidad().anno() == f.anno()) && (t.caducidad().mes() == f.mes()) && (t.caducidad().dia() < f.dia())) throw Tarjeta::Caducada(t.caducidad());
 	
 	/*	Comprobamos que la tarjeta está activa	*/
 	if(!t.activa()) throw Tarjeta::Desactivada();

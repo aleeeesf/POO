@@ -7,7 +7,7 @@
 using namespace std;
 
 	/* **************************************** */
-	/*				CONSTRUCTORES				*/
+	/*		CONSTRUCTORES		    */
 	/* **************************************** */
 Fecha::Fecha(int d, int m, int a):diaa(d),mess(m),anoo(a)
 {
@@ -46,7 +46,7 @@ Fecha::Invalida::Invalida(const char* msg):mensaje(msg){}
 
 
 	/* **************************************** */
-	/*			FUNCIONES	CONSULTORAS			*/
+	/*	     FUNCIONES	CONSULTORAS	    */
 	/* **************************************** */
 
 
@@ -82,11 +82,11 @@ int Fecha::maxdia(const int& m,const int& a) const
 	if(m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m ==10 || m == 12)	//Meses con 31 dias
 		return 31;
 	
-	else if(m == 4 || m == 6 || m == 5 || m == 9 || m == 11) 				//Meses con 30 dias
+	else if(m == 4 || m == 6 || m == 5 || m == 9 || m == 11) 		//Meses con 30 dias
 		return 30;
 	
-	else if(m == 2 && esbisiesto(a)) return 29;								//Dias de Febrero dependiendo de si el 
-	else return 28;															//año es bisiesto o no
+	else if(m == 2 && esbisiesto(a)) return 29;				//Dias de Febrero dependiendo de si el 
+	else return 28;								//año es bisiesto o no
 	
 }
 
@@ -171,7 +171,7 @@ const char* Fecha::cadena() const
 {
 	locale::global(locale("es_ES.UTF-8"));
 	
-	static char *aux = new char[45];			//declarada static evitar desaprovechos de memoria 
+	static char *aux = new char[45];		//declarada static evitar desaprovechos de memoria 
 	
 	tm t = {};
 	t.tm_mday = diaa;
@@ -188,7 +188,7 @@ const char* Fecha::cadena() const
 
 
 	/* **************************************** */
-	/*	SOBRECARGA DE OPERADORES ARITMÉTICOS	*/
+	/*   SOBRECARGA DE OPERADORES ARITMÉTICOS   */
 	/* **************************************** */
 	
 Fecha& Fecha::operator+=(int i)
@@ -258,19 +258,26 @@ Fecha& Fecha::operator-=(int i)
 
 
 	/* **************************************** */
-	/*	SOBRECARGA OPERADORES DE COMPARACIÓN	*/
+	/*  SOBRECARGA OPERADORES DE COMPARACIÓN    */
 	/* **************************************** */
 
 bool operator <(const Fecha& a, const Fecha& b) noexcept
-{
+{/*
 	if(a.anno() < b.anno()) return true;
   
-	else if((a.mes() < b.mes()) && (a.anno() == b.anno())) return true;
+	if((a.anno() == b.anno()) && (a.mes() < b.mes())) return true;
   
-		else if ((a.mes() == b.mes()) && (a.anno() == b.anno()) && (a.dia() < b.dia())) return true;
+	if ((a.anno() == b.anno()) && (a.mes() == b.mes()) && (a.dia() < b.dia())) return true;
 		
-		else return false;
+	else return false;
+*/
+	if(a.anno() < b.anno()) return true;
+	else if (a.anno() > b.anno()) return false;
+  
+	else if(a.mes() < b.mes()) return true;
+	else if(a.mes() > b.mes()) return false;
 
+	else return (a.dia() < b.dia());
 }
 
 bool operator >(const Fecha& a,const Fecha& b) noexcept
@@ -301,7 +308,7 @@ bool operator !=(const Fecha& a,const Fecha& b) noexcept
 
 
 	/* **************************************** */
-	/*		SOBRECARGA OPERADORES DE E/S		*/
+	/*	SOBRECARGA OPERADORES DE E/S	    */
 	/* **************************************** */
 	
 std::ostream& operator<<(std::ostream& os, const Fecha& fch){
@@ -318,7 +325,7 @@ std::istream& operator>>(std::istream& is, Fecha& fch){
 	
 	is.getline(cdn,11);			//Solicitamos la entrada de la cadena por teclado
 	
-	try{						//Comprobamos que la fecha introducida es válida
+	try{					//Comprobamos que la fecha introducida es válida
 		
 		fch = Fecha(cdn);
 	

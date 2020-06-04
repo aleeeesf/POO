@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include <locale>
+#include <locale.h>
 #include "articulo.hpp"
 
 

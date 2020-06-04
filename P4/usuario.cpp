@@ -1,7 +1,6 @@
 #include "usuario.hpp"
 #include <string.h>       // for strcmp, strlen
 #include <unistd.h>       // for crypt
-#include <cstddef>        // for size_t
 #include <iomanip>        // for operator<<, setw
 #include <ostream>        // for operator<<, ostream, basic_ostream, basic_o...
 #include <random>         // for uniform_int_distribution, random_device

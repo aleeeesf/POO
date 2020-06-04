@@ -3,7 +3,7 @@
 
 
 	/* **************************************** */
-	/*				CONSTRUCTORES				*/
+	/*		CONSTRUCTORES		    */
 	/* **************************************** */
 	
 Cadena::Cadena(unsigned t,char c):s_(new char[t+1]),tam_(t)
@@ -21,10 +21,8 @@ Cadena::Cadena(const char *str):s_(new char[strlen(str)+1]),tam_(strlen(str))
 	s_[tam_] = '\0';	*/
 }
 
-Cadena::Cadena(const Cadena& cdn)//:s_(new char [cdn.tam_+1]),tam_(cdn.tam_)
+Cadena::Cadena(const Cadena& cdn)
 {
-	//strcpy(s_,cdn.s_);
-	
 	tam_ = 0;
 	for(unsigned i = 0; cdn[i] != '\0'; i++) tam_++;
 	
@@ -32,7 +30,7 @@ Cadena::Cadena(const Cadena& cdn)//:s_(new char [cdn.tam_+1]),tam_(cdn.tam_)
 	
 	
 	for(unsigned i = 0; i<tam_; i++)	s_[i] = cdn[i];	//Copiamos todos los elementos de cdn
-												// a la nueva cadena
+								// a la nueva cadena
 	s_[tam_] = '\0';
 	
 }
@@ -57,22 +55,9 @@ Cadena& Cadena::operator=(Cadena&& cdn){
 
 
 	/* **************************************** */
-	/*			FUNCIONES	CONSULTORAS			*/
+	/*	    FUNCIONES	CONSULTORAS         */
 	/* **************************************** */
 
-
-/*
-void Cadena::mostrarcadena() noexcept	//Función de prueba
-{
-	unsigned i = 0;
-	
-	while(i <= strlen(this->s_)){
-				
-		cout<<this->s_[i]<<endl;
-		i++;
-	}
-}
-*/
 
 //TIPO DE FUNCIÓN: Publica
 //POSTCONDICIÓN: Devuelve la longitud de una cadena
@@ -91,7 +76,7 @@ char& Cadena::at(unsigned i) const
 	
 //TIPO DE FUNCIÓN: Publica
 //POSTCONDICIÓN: Extrae una parte de la cadena. Recibe como primer parámetro el índice
-//				 y como segundo parámetro el número de caracteres a extrar
+//		 y como segundo parámetro el número de caracteres a extrar
 Cadena Cadena::substr(unsigned ind_,const int& num_)const
 {
 	
@@ -127,7 +112,7 @@ Cadena Cadena::substr(unsigned ind_,const int& num_)const
 
 
 	/* **************************************** */
-	/*		  SOBRECARGA DE OPERADORES 			*/
+	/*	   SOBRECARGA DE OPERADORES 	    */
 	/* **************************************** */
 	
 char& Cadena::operator[](unsigned i){return s_[i];}
@@ -185,36 +170,6 @@ Cadena& Cadena::operator +=(const Cadena& cdn)
 	return *this;
 }
 
-/*
-Cadena& Cadena::operator +=(const char* c)
-{
-	
-	int t = (int)tam_+ strlen(c)+1;
-	
-	char* aux = new char[t];
-	
-	for(int i=0; i<tam_; i++) aux[i] = s_[i];
-		
-	
-	for(unsigned i=0; i<strlen(c); i++)	aux[i+tam_] = c[i];
-		
-	aux[t] = '\0';
-	
-	delete[] s_;
-		
-	s_ = new char[t];
-	
-	
-	for(unsigned i=0; i<strlen(aux); i++) s_[i] = aux[i];
-		
-	s_[t-1] = '\0';
-	tam_ = tam_ + strlen(c);
-	
-	delete[] aux;
-	
-	return *this;
-}
-*/
 
 Cadena operator +(const Cadena& c1, const Cadena& c2)
 {
@@ -227,7 +182,7 @@ Cadena operator +(const Cadena& c1, const Cadena& c2)
 
 
 	/* **************************************** */
-	/*	SOBRECARGA OPERADORES DE COMPARACIÓN	*/
+	/*   SOBRECARGA OPERADORES DE COMPARACIÓN   */
 	/* **************************************** */
 	
 	
@@ -265,7 +220,7 @@ bool operator !=(const Cadena& c1,const Cadena& c2)
 
 
 	/* **************************************** */
-	/*		SOBRECARGA OPERADORES DE E/S		*/
+	/*	SOBRECARGA OPERADORES DE E/S	    */
 	/* **************************************** */
 	
 	
@@ -278,7 +233,7 @@ std::ostream& operator<<(std::ostream& os, const Cadena& cdn)
 std::istream& operator>>(std::istream& is, Cadena& cdn){
 	
 	char* strng = new char[33]{'\0'};	//Si no se recibe ninguna cadena se rellena is con '\0'
-										// así permitimos una entrada vacía
+						// así permitimos una entrada vacía
 	is.width(33);	//32 espacios es el max. permitido +1 para '\0'
 	is>>strng;		
 	cdn = strng;
@@ -290,7 +245,7 @@ std::istream& operator>>(std::istream& is, Cadena& cdn){
 
 
 	/* **************************************** */
-	/*			SOBRECARGA ITERADORES			*/
+	/*	    SOBRECARGA ITERADORES	    */
 	/* **************************************** */
 	
 	
@@ -315,7 +270,7 @@ Cadena::reverse_iterator Cadena::rend() {return reverse_iterator(begin());}
 
 
 	/* **************************************** */
-	/*				  DESTRUCTOR				*/
+	/*		  DESTRUCTOR		    */
 	/* **************************************** */
 	
 Cadena::~Cadena(){delete[] s_;tam_ = 0;}

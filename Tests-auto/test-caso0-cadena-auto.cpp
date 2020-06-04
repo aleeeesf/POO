@@ -6,7 +6,7 @@
  * ©2015-19 el resto de profesores de POO
  */
 #include "test-auto.hpp"
-#include <iostream>
+
 using namespace std;
 
 namespace {

@@ -4,7 +4,7 @@
 #include <set>         // for set
 #include "cadena.hpp"  // for Cadena
 #include "fecha.hpp"   // for Fecha
-#include "usuario.hpp"
+
 using namespace std;
 class Usuario;
 

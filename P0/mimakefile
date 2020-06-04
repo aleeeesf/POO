@@ -1,0 +1,25 @@
+EXES = test-P0-auto test-P0-consola
+CXX = g++
+CXXFLAGS = -g -Wall -std=c++11 -pedantic
+FLAGS = -DP0 -I../Test-auto -I
+VPATH = ../Test-auto:.
+
+CLASSES = cadena.o fecha.o
+
+.PHONY: all clean
+
+all: $(EXES)
+
+test-P0-auto: test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o $(CLASSES)
+	${CXX} $(CXXFLAGS) ${FLAGS} -o $@ $^
+
+test-P0-consola: test-P0-consola.o fecha.o cadena.o
+	${CXX} ${FLAGS} $(CXXFLAGS) -o $@ $^
+
+test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o:
+	test-caso0-fecha-auto.cpp test-caso0-cadena-auto.cpp test-auto.cpp test-auto.hpp fecha.hpp cadena.hpp
+
+test-P0-consola.o fecha.o cadena.o: test-P0-consola.cpp fecha.cpp fecha.hpp cadena.cpp cadena.hpp
+
+clean:
+	rm -f $(EXES) *.o

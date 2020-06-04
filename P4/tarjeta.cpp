@@ -1,12 +1,14 @@
 #include "tarjeta.hpp"
 #include <ctype.h>     // for isdigit, isspace
-#include <stdlib.h>    // for atoi
 #include <string.h>    // for strlen, strcmp
 #include <ostream>     // for basic_ostream::operator<<, basic_ostream<>::__...
 #include <iomanip>
-#include "cadena.hpp"  // for Cadena
 #include <algorithm>
-class Usuario;  // lines 6-6
+#include <functional>   // for unary_negate, not1, unary_function
+#include "usuario.hpp"  // for Usuario
+#include "cadena.hpp"  // for Cadena
+
+
 //Declaracion adelantada
 set<Numero> Tarjeta::numeros_;
 bool luhn(const Cadena& numero);

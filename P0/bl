@@ -1,0 +1,5 @@
+
+programa: main.o fecha.o
+	c++ -o $@ $^
+main.o fecha.o: main.cpp fecha.cpp fecha.hpp
+	c++ -c $^

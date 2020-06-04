@@ -8,7 +8,7 @@
 class Articulo;  // lines 14-14
 class Numero;  // lines 12-12
 class Tarjeta;  // lines 13-13
-class Cadena;
+
 using namespace std;
 
 class Clave{

@@ -2,6 +2,7 @@
 #include <locale.h>             // for setlocale, LC_ALL
 #include <iomanip>              // for operator<<, setprecision
 #include <utility>              // for pair
+#include <typeinfo>             // for bad_cast
 #include "articulo.hpp"         // for Articulo
 #include "cadena.hpp"           // for operator!=, Cadena
 #include "pedido-articulo.hpp"  // for Pedido_Articulo

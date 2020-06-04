@@ -82,13 +82,9 @@ bool operator <(const Numero& a, const Numero& b)
 	
 Tarjeta::Tarjeta(const Numero& n, Usuario& u, const Fecha& f):num_tarjeta(n),titular_(&u),f_cad(f),activada_(true)
 {
-	
-	//if(f_cad < Fecha{}) throw Tarjeta::Caducada(f_cad);
-	
+	/* Comprobamos que la tarjeta no este caducada */
 	if(f.anno() < Fecha{}.anno()) throw Tarjeta::Caducada(f_cad);
-	
 	if((f.anno() == Fecha{}.anno()) && (f.mes() < Fecha{}.mes())) throw Tarjeta::Caducada(f_cad);
-	
 	if((f.anno() == Fecha{}.anno()) && (f.mes() == Fecha{}.mes()) && (f.dia() < Fecha{}.dia())) throw Tarjeta::Caducada(f_cad);
 	
 	auto buscar = numeros_.find(num_tarjeta);
