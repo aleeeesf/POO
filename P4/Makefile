@@ -37,7 +37,7 @@ DIRLUHN = ..
 # --- Parte configurable ---
 # Compilador de C++ preferido: el de LLVM (clang++), el de GNU (g++),
 # el de GNU en la versión 8 (g++-8), el de Intel (icpc)...
-CXX = g++
+CXX = clang++
 
 # ¿Qué estándar seguir?
 # c++98 o c++03 (-ansi): estándar de 1998, corregido en 2003. NO USAR YA.

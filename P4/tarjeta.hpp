@@ -9,18 +9,18 @@ using namespace std;
 class Usuario;
 
 class Numero{
-	
+
 	public:
-	
+
 		Numero(Cadena);
-		
+
 		const Cadena& cadena() const;
 		operator const char*() const;
 		enum Razon{LONGITUD,DIGITOS,NO_VALIDO};
-				
-		
-		class Incorrecto{		//Para manejar la razón de por qué un número
-								//es incorrecto
+
+		/* Para manejar la razón de por qué un número
+		*	 es incorrecto	*/
+		class Incorrecto{
 			public:
 				Incorrecto(const Razon&);
 				Razon razon() const;
@@ -28,25 +28,25 @@ class Numero{
 				Razon r_;
 		};
 
-	private:	
-		
+	private:
+
 		Cadena num_;
-	
+
 };
 
 bool operator <(const Numero&, const Numero&);
 
 
 class Tarjeta{
-	
+
 	public:
-		
+
 		Tarjeta(const Numero&, Usuario&, const Fecha&);
 		Tarjeta(const Tarjeta&) = delete;
 		Tarjeta& operator =(const Tarjeta&) = delete;
-		
+
 		enum Tipo {Otro, VISA, Mastercard, Maestro, JCB, AmericanExpress};
-				
+
 		Usuario* titular() const noexcept;
 		Tipo tipo() const noexcept;
 		const Numero& numero() const noexcept;
@@ -54,40 +54,42 @@ class Tarjeta{
 		bool activa() const noexcept;
 		void anula_titular();
 		bool activa(bool a = true) noexcept;
-	
+
 		//Clases para excepciones:
-		class Caducada{						//Para conocer cuando ha caducado una tarjeta
+		class Caducada{								//Para conocer cuando ha caducado una tarjeta
 			public:
 				Caducada(const Fecha&);
 				const Fecha& cuando() const;
 			private:
 				Fecha cad;
 		};
-		
-		class Num_duplicado{				//Para saber el número que está duplicado
+
+		class Num_duplicado{					//Para saber el número que está duplicado
 			public:
 				Num_duplicado(const Numero&);
 				const Numero& que() const;
 			private:
-				Numero dup;	
+				Numero dup;
 		};
-		
+
 		class Desactivada{
 			public:
 			Desactivada();
 			private:
 		};
-		
-		
+
+
 		~Tarjeta();
 	private:
-		
+
 		const Numero num_tarjeta;
 		Usuario* const titular_;
 		const Fecha f_cad;
-		bool activada_;	
-		static set<Numero> numeros_;	//Guardamos todos los números existentes, para que no hayan
-};										//numeros repetidos
+		bool activada_;
+		/*Guardamos todos los números existentes, para que no hayan
+		 * numeros repetidos	*/
+		static set<Numero> numeros_;
+};										
 
 /*Sobrecarga de los operadores << y < */
 ostream& operator<<(ostream&, const Tarjeta&);

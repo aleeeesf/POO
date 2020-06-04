@@ -6,32 +6,34 @@
 
 
 	/* **************************************** */
-	/*				CONSTRUCTORES				*/
+	/*								CONSTRUCTORES							*/
 	/* **************************************** */
-	
-	
-	
+
+
+
 //Constructor de la clase Autor
 Autor::Autor(const Cadena& n,const Cadena& a,const Cadena& d):nombre_(n), apellidos_(a), direccion_(d){}
 
-//Constructor de la clase Articulo	
+//Constructor de la clase Articulo
 Articulo::Articulo(const Autores& aut,const Cadena& r, const Cadena& t, const Fecha& f, double p):
 	ref_(r), titulo_(t), fpublic_(f), precio_(p),fundador(aut)
 	{
 	if(aut.empty()) throw Autores_vacios();
 	}
 
+
 /*	------ CONSTRUCTORES DE LAS CLASES HEREDADAS -----*/
+
 
 //Constructor de la clase ArticuloAlmacenable (Heredada de Articulo)
 ArticuloAlmacenable::ArticuloAlmacenable(const Autores& aut,const Cadena& r, const Cadena& t, const Fecha& f, double p,unsigned stock):
 	Articulo(aut,r,t,f,p),existencias_(stock){}
-	
-//Constructor de la clase ArticuloAlmacenable (Heredada de ArticuloAlmacenable)	
+
+//Constructor de la clase ArticuloAlmacenable (Heredada de ArticuloAlmacenable)
 Cederron::Cederron(const Autores& aut,const Cadena& r, const Cadena& t, const Fecha& f, double p, unsigned m,unsigned stock):
 	ArticuloAlmacenable(aut,r,t,f,p,stock),megabyt(m){}
-	
-//Constructor de la clase Libro (Heredada de ArticuloAlmacenable)		
+
+//Constructor de la clase Libro (Heredada de ArticuloAlmacenable)
 Libro::Libro(const Autores& aut,const Cadena& r, const Cadena& t, const Fecha& f, double p, unsigned np, unsigned stock):
 	ArticuloAlmacenable(aut,r,t,f,p,stock),num_pag(np){}
 
@@ -43,10 +45,12 @@ LibroDigital::LibroDigital(const Autores& aut,const Cadena& r, const Cadena& t, 
 
 
 	/* **************************************** */
-	/*			FUNCIONES	CONSULTORAS			*/
+	/*						FUNCIONES	CONSULTORAS					*/
 	/* **************************************** */
 
+
 /*	------ CONSULTORAS DE LA CLASE AUTOR -----*/
+
 
 //Tipo de funcion: Publica
 //Postcondicion: Devuelve el nombre del autor
@@ -62,6 +66,7 @@ const Cadena& Autor::direccion() const noexcept {return direccion_;}
 
 
 /*	------ CONSULTORAS DE LA CLASE CADENA -----*/
+
 
 //Tipo de funcion: Publica
 //Postcondicion: Devuelve el codigo de referencia de un articulo
@@ -90,6 +95,7 @@ const Articulo::Autores& Articulo::autores() const noexcept {return fundador;}
 
 /*	------ CONSULTORAS DE LAS CLASES HEREDADAS	-----*/
 
+
 //Tipo de funcion: Publica
 //Postcondicion: Devuelve el stcok disponible de un articulo
 const unsigned& ArticuloAlmacenable::stock() const noexcept {return existencias_;}
@@ -109,45 +115,43 @@ const Fecha& LibroDigital::f_expir() const noexcept {return exp;}
 
 
 
+	/* **************************************************/
+	/*		FUNCIONES Y SOBRECARGA OPERADORES DE E/S			*/
+	/* **************************************************/
 
-	/* **************************************************/
-	/*		FUNCIONES Y SOBRECARGA OPERADORES DE E/S	*/
-	/* **************************************************/
-	
-	
+
 
 std::ostream& operator <<(ostream& os, const Articulo& art)
 {
 	setlocale(LC_ALL,"es_ES.UTF-8");
 	os<<"["<<art.referencia()<<"]"<<" \""<<art.titulo()<<"\", de ";
-	
+
 	bool first = true;
 	for(Articulo::Autores::iterator i = art.autores().begin(); i != art.autores().end(); ++i){
 		if(i == art.autores().end() || first)
-		{ 
+		{
 			os<<(*i)->apellidos();
 			first = false;
-		}	
+		}
 		else os<<", "<<(*i)->apellidos();
-	}	
-	
+	}
+
 	os<<". "<<art.f_publi().anno()<<". "<<fixed<<setprecision(2)<<art.precio()<<" €\n\t";
 	art.impresion_especifica(os);
 	return os;
 }
 
 void Libro::impresion_especifica(ostream& os) const
-{	
-	os<<num_pag<<" págs., "<<existencias_<<" unidades."<<endl;
-}
-
-void Cederron::impresion_especifica(ostream& os) const 
 {
-	os<<megabyt<<" MB, "<<existencias_<<" unidades."<<endl;
+	os<<num_pag<<" págs., "<<existencias_<<" unidades.";
 }
 
-void LibroDigital::impresion_especifica(ostream& os) const 
+void Cederron::impresion_especifica(ostream& os) const
 {
-	os<<"A la venta hasta el "<<exp<<"."<<endl;
+	os<<megabyt<<" MB, "<<existencias_<<" unidades.";
 }
 
+void LibroDigital::impresion_especifica(ostream& os) const
+{
+	os<<"A la venta hasta el "<<exp<<".";
+}

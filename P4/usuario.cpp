@@ -12,25 +12,25 @@
 #include "tarjeta.hpp"    // for Tarjeta
 
 using namespace std;
-unordered_set<Cadena> Usuario::registrado;				//Hay que incluir la especialización de la 
+unordered_set<Cadena> Usuario::registrado;				//Hay que incluir la especialización de la
 														//plantilla hash<T> en cadena.hpp
-						
+
 	/* **************************************** */
-	/*				 CLASE CLAVE				*/
+	/*				 				CLASE CLAVE								*/
 	/* **************************************** */
 
 
 Clave::Clave(const char* p)
-{	
+{
 	if(strlen(p) < 5) throw Incorrecta(CORTA);		//La contraseña en menor que 5 caracteres
-	
+
 	else{
-		
+
 		static const char* semilla = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789./";
 		static std::random_device rd;										//Genera un numero aleatorio
 		static std::uniform_int_distribution<std::size_t> dist(0,63);
 		char sal[2] = {semilla[dist(rd)],semilla[dist(rd)]};				//Tomamos dos letras aleatorias
-		
+
 		passwd = crypt(p,sal);		//Guardamos la contraseña encriptada
 
 		if(passwd.c_str() == nullptr || passwd.length() < 13) throw Incorrecta(Clave::Razon::ERROR_CRYPT);
@@ -43,7 +43,7 @@ Clave::Incorrecta::Incorrecta(Clave::Razon r):r_(r){}
 //Tipo de función: Pública
 //Postcondición: Devuelve true si la contraseña coinciden
 bool Clave::verifica(const char* c) const
-{	
+{
 	if( strcmp(crypt(c,passwd.c_str()) , passwd.c_str()) == 0) return true;		//Comprobamos la contraseña introducida con la contraseña encriptada
 	else return false;
 }
@@ -59,7 +59,7 @@ Clave::Razon Clave::Incorrecta::razon() const{return r_;}
 
 
 	/* **************************************** */
-	/*				 CLASE USUARIO				*/
+	/*				 				CLASE USUARIO							*/
 	/* **************************************** */
 
 
@@ -67,9 +67,9 @@ Clave::Razon Clave::Incorrecta::razon() const{return r_;}
 Usuario::Usuario(const Cadena& id,const Cadena& nom, const Cadena& ap, const Cadena& dir, const Clave& c):
 	identif_(id), nom_(nom), apell_(ap), dir_(dir), password(c)
 {
-		//Buscar identificador repetidos si lo está 
+		//Buscar identificador repetidos si lo está
 		//lanzamos excepción mostrando el usuario duplicado
-		
+
 		if(!registrado.insert(id).second) throw(Id_duplicado(id));	//insert devuelve un par (set::end, false), para
 																	//comprobar el segundo añadimos .second
 }
@@ -80,7 +80,7 @@ Usuario::Id_duplicado::Id_duplicado(const Cadena& c):id_(c){}
 
 
 	/* **************************************** */
-	/*			FUNCIONES	CONSULTORAS			*/
+	/*						FUNCIONES	CONSULTORAS					*/
 	/* **************************************** */
 
 
@@ -118,11 +118,11 @@ inline const Usuario::Articulos& Usuario::compra() const noexcept {return articu
 //Tipo de función: Pública (NO PERTENECE A LA CLASE USUARIO).
 //Postcondición: Devuelve por pantalla los articulos del carrito.
 void mostrar_carro(ostream& os, const Usuario& u)
-{	
-	
+{
+
 	os<<"Carrito de compra de "<<u.id()<<" [Artículos: "<<u.n_articulos()<<"]"<<
 		endl<<" Cant.  Artículo"<<endl<<"===================================================="<<endl;
-		
+
 		for(auto i : u.compra()){
 			os<<" "<<i.second<<"    "<<"["<<i.first->referencia()<<"] \""<<i.first->titulo()<<"\", "<<
 			i.first->f_publi().anno()<<". "<<fixed<<setprecision(2)<<i.first->precio()<<" €"<<endl;
@@ -132,7 +132,7 @@ void mostrar_carro(ostream& os, const Usuario& u)
 
 
 	/* **************************************** */
-	/*			FUNCIONES	MODIFICADORAS		*/
+	/*					FUNCIONES	MODIFICADORAS					*/
 	/* **************************************** */
 
 
@@ -159,41 +159,35 @@ void Usuario::compra(Articulo& a, unsigned cantidad)
 {
 	if(cantidad == 0) articulos.erase(const_cast<Articulo*>(&a));
 	else articulos[const_cast<Articulo*>(&a)] = cantidad;
-	
+
 }
 
 //Tipo de función: Pública.
 //Postcondición: Devuelve la cantidad de artículos del carrito
 unsigned Usuario::n_articulos() const
-{	
+{
 	unsigned cont = 0;
-	
+
 	for(Usuario::Articulos::const_iterator i = articulos.begin(); i != articulos.end(); ++i) cont ++;
-	
+
 	return cont;
 }
-
-
 
 std::ostream& operator <<(ostream& os, const Usuario& user)
 {
 	os<<user.id()<<" ["<<user.password.clave()<<"] "<<user.nombre()<<" "<<user.apellidos()
 		<<"\n"<<user.direccion()<<"\n"<<"Tarjetas: "<<endl;
-		
-		
-		for(auto& i : user.tarj_){
-		
+
+		for(auto& i : user.tarj_)
 			os<<*i.second;
-		}
+
 		return os;
 }
 
 Usuario::~Usuario(){
-	
-	for(Usuario::Tarjetas::iterator i = tarj_.begin(); i != tarj_.end(); ++i){
-		
+
+	for(Usuario::Tarjetas::iterator i = tarj_.begin(); i != tarj_.end(); ++i)
 		i->second->anula_titular();
-	}
+
 	registrado.erase(identif_);
 }
-

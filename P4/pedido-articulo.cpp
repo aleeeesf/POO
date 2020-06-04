@@ -15,7 +15,7 @@ using namespace std;
 
 
 
-/*	------------- LINEA PEDIDO -------------*/	
+/*	------------- LINEA PEDIDO -------------*/
 
 
 
@@ -32,7 +32,7 @@ unsigned LineaPedido::cantidad() const {return cant;}
 
 //Sobrecarga del operador de salida
 ostream& operator<<(ostream& os, const LineaPedido& l){
-	
+
 	os<<fixed<<setprecision(2)<<l.precio_venta()<<" €	"<<l.cantidad();
 	return os;
 }
@@ -48,10 +48,7 @@ bool OrdenaArticulos::operator()(Articulo* x, Articulo* y) const {return x->refe
 
 
 
-
-
-/*	------------- PEDIDO ARTICULO -------------*/	
-
+/*	------------- PEDIDO ARTICULO -------------*/
 
 
 
@@ -59,34 +56,29 @@ bool OrdenaArticulos::operator()(Articulo* x, Articulo* y) const {return x->refe
 //Postcondicion: asocia un articulo a un pedido
 void Pedido_Articulo::pedir(Pedido& p, Articulo& a, double precio,unsigned cant)
 {
-	/*	Se puede realizar de una de las dos maneras	*/
-	/*
-	ped_art[&p].insert(make_pair(&a,LineaPedido(precio,cant)));
-	art_ped[&a].insert(make_pair(&p,LineaPedido(precio,cant)));
-	*/
 	auto i = ped_art.find(&p);
-	
+
 	if(i != ped_art.end())
 	{
 		i->second.insert(make_pair(&a,LineaPedido(precio,cant)));
 	}
-	
-	else	
+
+	else
 	{
 		ItemsPedido aux;
 		aux.insert(make_pair(&a,LineaPedido(precio,cant)));
 		ped_art.insert(make_pair(&p,aux));
-		
+
 	}
-	
+
 	auto x = art_ped.find(&a);
-	
+
 	if(x != art_ped.end())
 	{
 		x->second.insert(make_pair(&p,LineaPedido(precio,cant)));
 	}
-	
-	else	
+
+	else
 	{
 		Pedidos aux;
 		aux.insert(make_pair(&p,LineaPedido(precio,cant)));
@@ -121,36 +113,34 @@ Pedido_Articulo::Pedidos Pedido_Articulo::ventas(Articulo& a)
 		 Pedido_Articulo::Pedidos aux;
 		 return aux;
 		 }
-	
 }
 
 //Muestra los detalles del pedido (Cliente que lo realiza, tarjeta, fecha...)
 ostream& Pedido_Articulo::mostrarDetallePedidos(ostream& os)
 {
-	setlocale(LC_ALL,"es_ES.UTF-8");
 	double p_total = 0.0;
-	
+
 	for(auto &i: ped_art){
 		os<<"Pedido núm. "<<i.first->numero()<<endl<<
 		"Cliente: "<<i.first->tarjeta()->titular()->nombre()
 		<<"\t\t"<<"Fecha: "<<i.first->fecha()<<endl<<i.second<<endl;
-	
+
 		p_total += i.first->total();
 	}
-	
+
 	os<<"TOTAL VENTAS\t\t"<<fixed<<setprecision(2)<<p_total<<" €"<<endl;
-	
+
 	return os;
 }
 
 //Muestra los detalles de las ventas de los articulos(Cod.referencia, titulo...)
-ostream& Pedido_Articulo::mostrarVentasArticulos(ostream& os) 
+ostream& Pedido_Articulo::mostrarVentasArticulos(ostream& os)
 {
 
 	for(auto i: art_ped){
 	os<<"Ventas de "<<"["<<i.first->referencia()<<"]"<<" \""<<i.first->titulo()<<"\""<<endl<<i.second<<flush<<endl;
 	}
-	
+
 	return os;
 }
 
@@ -162,18 +152,18 @@ ostream& operator <<(ostream& os, const Pedido_Articulo::ItemsPedido& IP)
 	os.flush();
 	os<<"  PVP	Cantidad			Artículo"<<endl;
 	os<<"======================================================="<<endl;
-	
+
 	double total = 0;
 	Pedido_Articulo::ItemsPedido::const_iterator i;
 	for(i = IP.begin();i != IP.end(); ++i){
 		os<<i->second.precio_venta()<<" € "<<i->second.cantidad()<<"\t\t\t"<<
 		"["<<i->first->referencia()<<"] "<<i->first->titulo()<<endl;
-		
+
 		total += i->second.precio_venta() * i->second.cantidad();
 	}
 	os<<"======================================================="<<endl;
 	os<<"Total\t"<<fixed<<setprecision(2)<<total<<" €"<<endl<<flush;
-	
+
 	return os;
 }
 
@@ -181,24 +171,22 @@ ostream& operator <<(ostream& os, const Pedido_Articulo::ItemsPedido& IP)
 //un pedido
 ostream& operator <<(ostream& os, const Pedido_Articulo::Pedidos& P)
 {
-	//setlocale(LC_ALL,"es_ES");
-	
+
 	os<<"  PVP	Cantidad			Fecha de venta"<<endl;
 	os<<"======================================================="<<endl;
-	
+
 	double total = 0;
 	unsigned cantid = 0;
-	
+
 	for(auto i: P){
 		os<<fixed<<setprecision(2)<<i.second.precio_venta()<<" €   "<<i.second.cantidad()<<"\t\t\t"<<
 		i.first->fecha()<<endl;
-		
+
 		total += i.second.precio_venta() * i.second.cantidad();
 		cantid += i.second.cantidad();
 	}
 	os<<"======================================================="<<endl;
 	os<<fixed<<setprecision(2)<<total<<" €  "<<cantid<<endl<<flush;
-	
+
 	return os;
 }
-
