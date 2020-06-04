@@ -67,11 +67,11 @@ Clave::Razon Clave::Incorrecta::razon() const{return r_;}
 Usuario::Usuario(const Cadena& id,const Cadena& nom, const Cadena& ap, const Cadena& dir, const Clave& c):
 	identif_(id), nom_(nom), apell_(ap), dir_(dir), password(c)
 {
-		//Buscar identificador repetidos si lo está
-		//lanzamos excepción mostrando el usuario duplicado
+	//Buscar identificador repetidos si lo está
+	//lanzamos excepción mostrando el usuario duplicado
 
-		if(!registrado.insert(id).second) throw(Id_duplicado(id));	//insert devuelve un par (set::end, false), para
-										//comprobar el segundo añadimos .second
+	if(!registrado.insert(id).second) throw(Id_duplicado(id));	//insert devuelve un par (set::end, false), para
+									//comprobar el segundo añadimos .second
 }
 
 //Constructor de la clase Id_duplicado -> Excepciones
@@ -121,12 +121,12 @@ void mostrar_carro(ostream& os, const Usuario& u)
 {
 
 	os<<"Carrito de compra de "<<u.id()<<" [Artículos: "<<u.n_articulos()<<"]"<<
-		endl<<" Cant.  Artículo"<<endl<<"===================================================="<<endl;
+	endl<<" Cant.  Artículo"<<endl<<"===================================================="<<endl;
 
-		for(auto i : u.compra()){
-			os<<" "<<i.second<<"    "<<"["<<i.first->referencia()<<"] \""<<i.first->titulo()<<"\", "<<
-			i.first->f_publi().anno()<<". "<<fixed<<setprecision(2)<<i.first->precio()<<" €"<<endl;
-		}
+	for(auto i : u.compra()){
+		os<<" "<<i.second<<"    "<<"["<<i.first->referencia()<<"] \""<<i.first->titulo()<<"\", "<<
+		i.first->f_publi().anno()<<". "<<fixed<<setprecision(2)<<i.first->precio()<<" €"<<endl;
+	}
 }
 
 
@@ -178,10 +178,10 @@ std::ostream& operator <<(ostream& os, const Usuario& user)
 	os<<user.id()<<" ["<<user.password.clave()<<"] "<<user.nombre()<<" "<<user.apellidos()
 		<<"\n"<<user.direccion()<<"\n"<<"Tarjetas: "<<endl;
 
-		for(auto& i : user.tarj_)
-			os<<*i.second;
+	for(auto& i : user.tarj_)
+		os<<*i.second;
 
-		return os;
+	return os;
 }
 
 Usuario::~Usuario(){

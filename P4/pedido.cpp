@@ -39,15 +39,15 @@ Pedido::Pedido(Usuario_Pedido& up, Pedido_Articulo& pa, Usuario& u, const Tarjet
 
 	for(auto &i: u.compra())
 	{
-			/*Si el objeto apuntado por i.first es de tipo ArticuloAlmacenable
-			 * i.first se convierte sin problemas en pa	*/
-			if(ArticuloAlmacenable* pa = dynamic_cast<ArticuloAlmacenable*>(i.first)){
+		/*Si el objeto apuntado por i.first es de tipo ArticuloAlmacenable
+		 * i.first se convierte sin problemas en pa	*/
+		if(ArticuloAlmacenable* pa = dynamic_cast<ArticuloAlmacenable*>(i.first)){
 
-					if(pa->stock() < i.second){
-						const_cast<Usuario::Articulos&> (u.compra()).clear();
-						throw Pedido::SinStock(i.first);	//NO hay stock del artículo
-					}
+			if(pa->stock() < i.second){
+				const_cast<Usuario::Articulos&> (u.compra()).clear();
+				throw Pedido::SinStock(i.first);	//NO hay stock del artículo
 			}
+		}
 	}
 
 	bool ped_vacio = true;			//Booleano para comprobar si el pedido está vacío
@@ -55,38 +55,38 @@ Pedido::Pedido(Usuario_Pedido& up, Pedido_Articulo& pa, Usuario& u, const Tarjet
 
 	/* Se realizan los pedidos que tenga el usuario en el carrito;
 	 * Si se trata de un artículo almacenable se decrementa el stock;
-	 * Si se trata de un Libro Digital se comprobraá que la fecha de expiración
+	 * Si se trata de un Libro Digital se comprobará que la fecha de expiración
 	 * no supere la actual*/
 	for(auto i: carro)
 	{
-				/*Primero comprobamos que el artículo recibido sea un LibroDigital*/
-				if(LibroDigital* plib = dynamic_cast<LibroDigital *>(i.first)){
+		/*Primero comprobamos que el artículo recibido sea un LibroDigital*/
+		if(LibroDigital* plib = dynamic_cast<LibroDigital *>(i.first)){
 
-						/*Comprobamos que la fecha de expiración sea correcta*/
-						if(plib->f_expir() < f_pedido) u.compra(*i.first,0);
+			/*Comprobamos que la fecha de expiración sea correcta*/
+			if(plib->f_expir() < f_pedido) u.compra(*i.first,0);
 
-						else{
-							 //El pedido no contiene ningun libro expirado o contiene al menos un Art. Almacenable
-							 ped_vacio = false;
-							 pa.pedir(*this,*plib, i.first->precio(),i.second);	//Pedimos el artículo
-							 importe_total += i.first->precio() * i.second;		//Calculamos el importe total
-							 u.compra(*i.first,0);
-						}
-				}
+			else{
+				 //El pedido no contiene ningun libro expirado o contiene al menos un Art. Almacenable
+				 ped_vacio = false;
+				 pa.pedir(*this,*plib, i.first->precio(),i.second);	//Pedimos el artículo
+				 importe_total += i.first->precio() * i.second;		//Calculamos el importe total
+				 u.compra(*i.first,0);
+			}
+		}
 
-				/*Si no lo es entonces será un Artículo Almacenable (CD-ROM, Libro...)*/
-				else if	(ArticuloAlmacenable* p_art = dynamic_cast<ArticuloAlmacenable *>(i.first))
-				{
-						pa.pedir(*this,*p_art, i.first->precio(),i.second);		//Pedimos el artículo
-						p_art->stock() -= i.second;					//decrementamos el stock
-					   	importe_total += i.first->precio() * i.second;			//Calculamos el importe total
-						u.compra(*i.first,0);
-						ped_vacio = false;	 //El pedido no contiene ningun libro expirado o contiene al menos un Art. Almacenable
-				}
+		/*Si no lo es entonces será un Artículo Almacenable (CD-ROM, Libro...)*/
+		else if	(ArticuloAlmacenable* p_art = dynamic_cast<ArticuloAlmacenable *>(i.first))
+		{
+			pa.pedir(*this,*p_art, i.first->precio(),i.second);		//Pedimos el artículo
+			p_art->stock() -= i.second;					//decrementamos el stock
+		   	importe_total += i.first->precio() * i.second;			//Calculamos el importe total
+			u.compra(*i.first,0);
+			ped_vacio = false;	 //El pedido no contiene ningun libro expirado o contiene al menos un Art. Almacenable
+		}
 
-				/*No se trata ni de un Artículo Almacenable ni de un Libro Digital;
-				* por lo que se lanzará una excepción */
-				else throw bad_cast();
+		/*No se trata ni de un Artículo Almacenable ni de un Libro Digital;
+		* por lo que se lanzará una excepción */
+		else throw bad_cast();
 	}
 
 	/*Si no ha comprado ningun articulo diferente a libro digital y el
